@@ -1,0 +1,28 @@
+{
+  "name": "stylize-regression",
+  "version": "0.0.0",
+  "description": "Visual regression testing for Stylize.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Josh Miller",
+    "email": "josh@josh-miller.me",
+    "url": "http://josh-miller.me/"
+  },
+  "keywords": [
+    "stylize",
+    "regression",
+    "visual regression"
+  ],
+  "license": "GPL-3.0",
+  "dependencies": {
+    "chalk": "^1.1.0",
+    "fs-extra": "^0.23.1",
+    "lodash": "^3.10.1",
+    "node-resemble-js": "0.0.4",
+    "stylize": "0.0.0",
+    "webshot": "^0.16.0"
+  }
+}
