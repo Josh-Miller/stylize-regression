@@ -67,6 +67,7 @@ StylizeRegression.prototype.takeScreenshot = function(patterns) {
       });
     } else {
       console.log(chalk.cyan('Diffing images'));
+      var loopCount = 1;
 
       _.forEach(patterns, function(pattern, key) {
 
@@ -88,13 +89,23 @@ StylizeRegression.prototype.takeScreenshot = function(patterns) {
 
               errorCount++;
 
-              data.getDiffImage().pack().pipe(fs.createWriteStream(_stylizeRegression.path + '/regression-tests/diff/' + pattern.name + '--diff.png'));
+              fs.open(_stylizeRegression.path + '/regression-tests/diff', 'r', function(err) {
+                if (err) {
+                  fs.mkdirSync(_stylizeRegression.path + '/regression-tests/diff');
+                }
+
+                data.getDiffImage().pack().pipe(fs.createWriteStream(_stylizeRegression.path + '/regression-tests/diff/' + pattern.name + '--diff.png'));
+              });
+
+
             } else {
               passCount++;
             }
-            if ((patterns.length - 1) === key) {
+
+            if (patterns.length === loopCount) {
               console.log(chalk.cyan('Diff complete, ') + chalk.green(passCount + ' passed ') + chalk.red(errorCount + ' failed'));
             }
+            loopCount++;
           });
         });
       });
