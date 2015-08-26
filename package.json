@@ -23,7 +23,7 @@
     "fs-extra": "^0.23.1",
     "lodash": "^3.10.1",
     "node-resemble-js": "0.0.4",
-    "stylize": "0.0.0",
+    "stylize-core": "^0.0.1",
     "webshot": "^0.16.0"
   }
 }

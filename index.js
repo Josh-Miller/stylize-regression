@@ -5,7 +5,7 @@ var webshot = require('webshot'),
     _ = require('lodash'),
     chalk = require('chalk'),
     resemble = require('node-resemble-js'),
-    Stylize = require('stylize');
+    Stylize = require('stylize-core');
 
 var StylizeRegression = function() {
   this.path = process.cwd();
@@ -36,9 +36,19 @@ StylizeRegression.prototype.get = function(cb) {
       _stylize.compile(pattern.template, _stylize.partials, _stylize.data(pattern.name), function(compiled) {
         pattern.compiled = compiled;
 
-        if (key === patternsLength) {
-          cb(patterns);
-        }
+        // Compile header
+        _stylize.compile(pattern.header, '', _stylize.data(), function(compiled) {
+          pattern.header = compiled;
+
+          // Compile footer
+          _stylize.compile(pattern.footer, '', _stylize.data(), function(compiled) {
+            pattern.footer = compiled;
+
+            if (key === patternsLength) {
+              cb(_stylize.patterns);
+            }
+          });
+        });
       });
     });
   });
@@ -83,7 +93,7 @@ StylizeRegression.prototype.takeScreenshot = function(patterns) {
           var comparisonImg = fs.readFileSync(_stylizeRegression.path + '/regression-tests/compare/' + pattern.name + '.png');
 
           var diff = resemble(comparisonImg).compareTo(baselineImg).ignoreColors().onComplete(function(data){
-
+// console.log(pattern.name, data);
             if (parseInt(data.misMatchPercentage) > _stylizeRegression.mismatchTolerance) {
               console.log(chalk.red('Diff failed: ' + pattern.name + ' by ' + data.misMatchPercentage + '% misMatchPercentage'));
 
