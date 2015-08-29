@@ -12,15 +12,14 @@ var StylizeRegression = function() {
   this.mismatchTolerance = 0.05;
 }
 
-StylizeRegression.prototype.get = function(cb) {
+StylizeRegression.prototype.get = function(cmdPath, cb) {
   var _stylize = new Stylize;
-  var path = process.cwd();
-  _stylize.path = path;
+  _stylize.path = cmdPath;
 
   _.forEach(_stylize.config().plugins, function(n, key) {
     var settings = {};
 
-    var plugin = require(path + '/node_modules/' + key);
+    var plugin = require(cmdPath + '/node_modules/' + key);
     if (n) {
       settings = n;
     }
@@ -28,7 +27,7 @@ StylizeRegression.prototype.get = function(cb) {
     _stylize.register(key, plugin, settings);
   });
 
-  _stylize.getPatterns(path, function(patterns) {
+  _stylize.getPatterns(cmdPath, function(patterns) {
   var patternsLength = patterns.length - 1;
     _.forEach(patterns, function(pattern, key) {
 
